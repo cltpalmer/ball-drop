@@ -6,6 +6,7 @@ body {
     margin: 0;
     background-color: #F0F8FF;
     font-family: Arial, sans-serif;
+    transition: background-color 0.5s;
 }
 
 #game-container {
