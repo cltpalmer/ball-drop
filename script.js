@@ -18,7 +18,7 @@ holes.forEach(hole => {
 });
 
 function dragStart(event) {
-    event.dataTransfer.setData('text/plain', event.target.style.backgroundColor);
+    event.dataTransfer.setData('text/plain', event.target.getAttribute('data-color'));
 }
 
 function dragOver(event) {
@@ -84,8 +84,11 @@ function swapBalls() {
     const ball2 = ballArray[Math.floor(Math.random() * ballArray.length)];
 
     if (ball1 !== ball2) {
-        const tempColor = ball1.style.backgroundColor;
-        ball1.style.backgroundColor = ball2.style.backgroundColor;
+        const tempColor = ball1.getAttribute('data-color');
+        ball1.setAttribute('data-color', ball2.getAttribute('data-color'));
+        ball2.setAttribute('data-color', tempColor);
+
+        ball1.style.backgroundColor = ball2.getAttribute('data-color');
         ball2.style.backgroundColor = tempColor;
 
         ball1.style.transform = 'scale(1.2)';
