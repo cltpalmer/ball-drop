@@ -29,6 +29,7 @@ body {
     border-radius: 50%;
     margin: 0 10px;
     cursor: pointer;
+    transition: transform 0.3s;
 }
 
 #holes {
@@ -39,7 +40,7 @@ body {
 .hole {
     width: 60px;
     height: 60px;
-    border: 2px solid #000;
+    border: 3px solid;
     border-radius: 50%;
     margin: 0 10px;
     background-color: #FFF;
