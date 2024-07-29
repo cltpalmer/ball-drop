@@ -5,6 +5,7 @@ const timerDisplay = document.getElementById('timer');
 
 let score = 0;
 let timeLeft = 30;
+let swapInterval;
 
 balls.forEach(ball => {
     ball.addEventListener('dragstart', dragStart);
@@ -48,6 +49,7 @@ function startTimer() {
 
         if (timeLeft === 0) {
             clearInterval(timerInterval);
+            clearInterval(swapInterval);
             alert('Time\'s up! You lose.');
             resetGame();
         }
@@ -62,8 +64,35 @@ function resetGame() {
     holes.forEach(hole => {
         hole.style.backgroundColor = '#FFF';
     });
+    clearInterval(swapInterval);
+    startSwapping();
+}
+
+function swapBalls() {
+    const ballArray = Array.from(balls);
+    const ball1 = ballArray[Math.floor(Math.random() * ballArray.length)];
+    const ball2 = ballArray[Math.floor(Math.random() * ballArray.length)];
+
+    if (ball1 !== ball2) {
+        const tempColor = ball1.style.backgroundColor;
+        ball1.style.backgroundColor = ball2.style.backgroundColor;
+        ball2.style.backgroundColor = tempColor;
+
+        ball1.style.transform = 'scale(1.2)';
+        ball2.style.transform = 'scale(1.2)';
+
+        setTimeout(() => {
+            ball1.style.transform = 'scale(1)';
+            ball2.style.transform = 'scale(1)';
+        }, 300);
+    }
+}
+
+function startSwapping() {
+    swapInterval = setInterval(swapBalls, 2000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     startTimer();
+    startSwapping();
 });
