@@ -2,6 +2,7 @@ const balls = document.querySelectorAll('.ball');
 const holes = document.querySelectorAll('.hole');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
+const body = document.body;
 
 let score = 0;
 let timeLeft = 30;
@@ -33,13 +34,22 @@ function drop(event) {
         event.target.style.backgroundColor = ballColor;
         score++;
         scoreDisplay.textContent = `Score: ${score}/10`;
+        flashBackground('green');
         if (score === 10) {
             alert('You win!');
             resetGame();
         }
     } else {
+        flashBackground('red');
         alert('Wrong color! Try again.');
     }
+}
+
+function flashBackground(color) {
+    body.style.backgroundColor = color === 'green' ? '#90EE90' : '#FF6347';
+    setTimeout(() => {
+        body.style.backgroundColor = '#F0F8FF';
+    }, 500);
 }
 
 function startTimer() {
