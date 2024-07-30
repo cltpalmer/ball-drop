@@ -11,8 +11,8 @@ let timeLeft = 30;
 let swapInterval;
 let holeSwapInterval;
 let timerInterval;
-let swapSpeed = 3000;
-const initialSwapSpeed = 3000;
+let swapSpeed = 4000;  // Slower initial speed
+const initialSwapSpeed = 4000;  // Slower initial speed
 
 balls.forEach(ball => {
     ball.addEventListener('dragstart', dragStart);
@@ -150,7 +150,7 @@ function swapHoles() {
 function startSwapping() {
     swapInterval = setInterval(() => {
         swapBalls();
-        swapSpeed = Math.max(500, swapSpeed - 300);
+        swapSpeed = Math.max(1000, swapSpeed - 300);  // Slightly slower acceleration
         clearInterval(swapInterval);
         startSwapping();
     }, swapSpeed);
