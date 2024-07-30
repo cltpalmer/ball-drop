@@ -44,7 +44,7 @@ body {
     border: 3px solid;
     border-radius: 50%;
     margin: 0 10px;
-    background-color: #FFF;
+    background-color: transparent;
     transition: background-color 0.5s;
 }
 
