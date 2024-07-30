@@ -2,11 +2,14 @@ const balls = document.querySelectorAll('.ball');
 const holes = document.querySelectorAll('.hole');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
+const startButton = document.getElementById('start-button');
+const playAgainButton = document.getElementById('play-again-button');
 const body = document.body;
 
 let score = 0;
 let timeLeft = 30;
 let swapInterval;
+let swapSpeed = 3000;
 
 balls.forEach(ball => {
     ball.addEventListener('dragstart', dragStart);
@@ -16,6 +19,9 @@ holes.forEach(hole => {
     hole.addEventListener('dragover', dragOver);
     hole.addEventListener('drop', drop);
 });
+
+startButton.addEventListener('click', startGame);
+playAgainButton.addEventListener('click', resetGame);
 
 function dragStart(event) {
     event.dataTransfer.setData('text/plain', event.target.getAttribute('data-color'));
@@ -38,7 +44,7 @@ function drop(event) {
         if (score === 10) {
             setTimeout(() => {
                 alert('You win!');
-                resetGame();
+                endGame();
             }, 500);
         }
     } else {
@@ -63,7 +69,7 @@ function startTimer() {
             clearInterval(swapInterval);
             setTimeout(() => {
                 alert('Time\'s up! You lose.');
-                resetGame();
+                endGame();
             }, 500);
         }
     }, 1000);
@@ -72,13 +78,20 @@ function startTimer() {
 function resetGame() {
     score = 0;
     timeLeft = 30;
+    swapSpeed = 3000;
     scoreDisplay.textContent = 'Score: 0/10';
     timerDisplay.textContent = 'Time: 30s';
     holes.forEach(hole => {
         hole.style.backgroundColor = '#FFF';
     });
+    playAgainButton.style.display = 'none';
+    startButton.style.display = 'block';
+}
+
+function endGame() {
     clearInterval(swapInterval);
-    startSwapping();
+    playAgainButton.style.display = 'block';
+    startButton.style.display = 'none';
 }
 
 function swapBalls() {
@@ -105,10 +118,23 @@ function swapBalls() {
 }
 
 function startSwapping() {
-    swapInterval = setInterval(swapBalls, 2000);
+    swapInterval = setInterval(() => {
+        swapBalls();
+        swapSpeed = Math.max(500, swapSpeed - 300);
+        clearInterval(swapInterval);
+        startSwapping();
+    }, swapSpeed);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function startGame() {
+    startButton.style.display = 'none';
+    scoreDisplay.textContent = 'Score: 0/10';
+    timerDisplay.textContent = 'Time: 30s';
+    score = 0;
+    timeLeft = 30;
+    swapSpeed = 3000;
     startTimer();
     startSwapping();
-});
+}
+
+document.addEventListener('DOMContentLoaded', resetGame);
