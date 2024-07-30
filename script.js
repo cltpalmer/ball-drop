@@ -9,6 +9,7 @@ const body = document.body;
 let score = 0;
 let timeLeft = 30;
 let swapInterval;
+let holeSwapInterval;
 let timerInterval;
 let swapSpeed = 3000;
 
@@ -68,6 +69,7 @@ function startTimer() {
         if (timeLeft === 0) {
             clearInterval(timerInterval);
             clearInterval(swapInterval);
+            clearInterval(holeSwapInterval);
             setTimeout(() => {
                 alert('Time\'s up! You lose.');
                 endGame();
@@ -89,11 +91,13 @@ function resetGame() {
     startButton.style.display = 'block';
     clearInterval(timerInterval);
     clearInterval(swapInterval);
+    clearInterval(holeSwapInterval);
 }
 
 function endGame() {
     clearInterval(timerInterval);
     clearInterval(swapInterval);
+    clearInterval(holeSwapInterval);
     playAgainButton.style.display = 'block';
     startButton.style.display = 'none';
 }
@@ -121,6 +125,21 @@ function swapBalls() {
     }
 }
 
+function swapHoles() {
+    const holeArray = Array.from(holes);
+    const hole1 = holeArray[Math.floor(Math.random() * holeArray.length)];
+    const hole2 = holeArray[Math.floor(Math.random() * holeArray.length)];
+
+    if (hole1 !== hole2) {
+        const tempColor = hole1.getAttribute('data-color');
+        hole1.setAttribute('data-color', hole2.getAttribute('data-color'));
+        hole2.setAttribute('data-color', tempColor);
+
+        hole1.style.borderColor = hole2.getAttribute('data-color');
+        hole2.style.borderColor = tempColor;
+    }
+}
+
 function startSwapping() {
     swapInterval = setInterval(() => {
         swapBalls();
@@ -128,6 +147,10 @@ function startSwapping() {
         clearInterval(swapInterval);
         startSwapping();
     }, swapSpeed);
+
+    holeSwapInterval = setInterval(() => {
+        swapHoles();
+    }, 1500);
 }
 
 function startGame() {
