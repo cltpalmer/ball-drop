@@ -39,7 +39,7 @@ function drop(event) {
     const holeColor = event.target.getAttribute('data-color');
 
     if (ballColor === holeColor) {
-        event.target.style.backgroundColor = ballColor;
+        event.target.style.backgroundColor = 'transparent';  // Make the hole background transparent after placing a ball
         score++;
         scoreDisplay.textContent = `Score: ${score}/10`;
         flashBackground('green');
@@ -85,7 +85,7 @@ function resetGame() {
     scoreDisplay.textContent = 'Score: 0/10';
     timerDisplay.textContent = 'Time: 30s';
     holes.forEach(hole => {
-        hole.style.backgroundColor = '#FFF';
+        hole.style.backgroundColor = 'transparent';
     });
     playAgainButton.style.display = 'none';
     startButton.style.display = 'block';
