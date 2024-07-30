@@ -9,6 +9,7 @@ const body = document.body;
 let score = 0;
 let timeLeft = 30;
 let swapInterval;
+let timerInterval;
 let swapSpeed = 3000;
 
 balls.forEach(ball => {
@@ -60,7 +61,7 @@ function flashBackground(color) {
 }
 
 function startTimer() {
-    const timerInterval = setInterval(() => {
+    timerInterval = setInterval(() => {
         timeLeft--;
         timerDisplay.textContent = `Time: ${timeLeft}s`;
 
@@ -86,9 +87,12 @@ function resetGame() {
     });
     playAgainButton.style.display = 'none';
     startButton.style.display = 'block';
+    clearInterval(timerInterval);
+    clearInterval(swapInterval);
 }
 
 function endGame() {
+    clearInterval(timerInterval);
     clearInterval(swapInterval);
     playAgainButton.style.display = 'block';
     startButton.style.display = 'none';
