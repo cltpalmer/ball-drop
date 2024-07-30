@@ -12,6 +12,7 @@ let swapInterval;
 let holeSwapInterval;
 let timerInterval;
 let swapSpeed = 3000;
+const initialSwapSpeed = 3000;
 
 balls.forEach(ball => {
     ball.addEventListener('dragstart', dragStart);
@@ -39,7 +40,7 @@ function drop(event) {
     const holeColor = event.target.getAttribute('data-color');
 
     if (ballColor === holeColor) {
-        event.target.style.backgroundColor = 'transparent';  // Make the hole background transparent after placing a ball
+        event.target.style.backgroundColor = 'transparent';
         score++;
         scoreDisplay.textContent = `Score: ${score}/10`;
         flashBackground('green');
@@ -81,7 +82,7 @@ function startTimer() {
 function resetGame() {
     score = 0;
     timeLeft = 30;
-    swapSpeed = 3000;
+    swapSpeed = initialSwapSpeed;
     scoreDisplay.textContent = 'Score: 0/10';
     timerDisplay.textContent = 'Time: 30s';
     holes.forEach(hole => {
@@ -92,6 +93,9 @@ function resetGame() {
     clearInterval(timerInterval);
     clearInterval(swapInterval);
     clearInterval(holeSwapInterval);
+    balls.forEach(ball => {
+        ball.classList.remove('falling');
+    });
 }
 
 function endGame() {
@@ -100,6 +104,9 @@ function endGame() {
     clearInterval(holeSwapInterval);
     playAgainButton.style.display = 'block';
     startButton.style.display = 'none';
+    balls.forEach(ball => {
+        ball.classList.add('falling');
+    });
 }
 
 function swapBalls() {
@@ -159,9 +166,12 @@ function startGame() {
     timerDisplay.textContent = 'Time: 30s';
     score = 0;
     timeLeft = 30;
-    swapSpeed = 3000;
+    swapSpeed = initialSwapSpeed;
     startTimer();
     startSwapping();
+    balls.forEach(ball => {
+        ball.classList.remove('falling');
+    });
 }
 
 document.addEventListener('DOMContentLoaded', resetGame);
