@@ -36,12 +36,13 @@ function drop(event) {
         scoreDisplay.textContent = `Score: ${score}/10`;
         flashBackground('green');
         if (score === 10) {
-            alert('You win!');
-            resetGame();
+            setTimeout(() => {
+                alert('You win!');
+                resetGame();
+            }, 500);
         }
     } else {
         flashBackground('red');
-        alert('Wrong color! Try again.');
     }
 }
 
@@ -60,8 +61,10 @@ function startTimer() {
         if (timeLeft === 0) {
             clearInterval(timerInterval);
             clearInterval(swapInterval);
-            alert('Time\'s up! You lose.');
-            resetGame();
+            setTimeout(() => {
+                alert('Time\'s up! You lose.');
+                resetGame();
+            }, 500);
         }
     }, 1000);
 }
